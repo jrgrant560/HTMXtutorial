@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- connection to htmx -->
+    <script src="https://unpkg.com/htmx.org@latest/dist/htmx.min.js"></script> 
+</head>
+<body>
+    <button hx-on="click:alert('Clicked!')">Click Alert</button>
+    <br>
+    <!-- Need to test hx-get, hx-post, etc. with a running backend server; test with NodeJS or dotNet -->
+    <button hx-get="http://localhost:5007/pizzas" hx-swap="outerHTML" hx-target="#pizzaList">
+        GET: All Pizzas
+    </button>
+    <br>
+    <br>
+    <div id="pizzaList"></div>
+
+    <!-- htmx requests for all main HTTP verbs -->
+    <button hx-get="http://localhost:5007/pizzas/1" hx-swap="outerHTML" hx-target="#pizzaDetails">
+        GET: Pizza 1
+    </button>
+    <br>
+    <br>
+    
+
+    <!-- need to figure out how to send JSON to the server with htmx -->
+    <!-- ideally, I probably wouldn't be sending JSON in my data requests; instead the server would expect HTML, I think... I need to research this further -->
+    <form id="pizzaForm" hx-post="http://localhost:5007/pizzas" hx-swap="outerHTML" hx-target="#pizzaForm" hx-vals='{"json": formToJSON(this)}'>
+        <input type="number" name="id" placeholder="ID">
+        <input type="text" name="name" placeholder="Name">
+        <button type="submit">POST: Create Pizza</button>
+    </form>
+    <br>
+    <br>
+    <button hx-put="http://localhost:5007/pizzas/1" hx-swap="outerHTML" hx-target="#pizzaForm">
+        PUT: Update Pizza 1
+    </button>
+    <button hx-delete="http://localhost:5007/pizzas/1" hx-swap="outerHTML" hx-target="#pizzaList">
+        DELETE: Pizza 1
+    </button>
+    
+    <div id="pizzaDetails"></div>
+    <div id="pizzaForm"></div>
+
+
+    <script>
+        function formToJSON(form) {
+            var formData = new FormData(form);
+            var data = {};
+            formData.forEach((value, key) => data[key] = value);
+            return JSON.stringify(data);
+        }
+    </script>
+</body>
+</html>
+
+    
+
+</body>
+</html>
