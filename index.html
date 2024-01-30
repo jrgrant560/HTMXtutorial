@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
     <!-- connection to htmx -->
-    <script src="https://unpkg.com/htmx.org@latest/dist/htmx.min.js"></script> 
+    <script src="https://unpkg.com/htmx.org@latest/dist/htmx.min.js"></script>
+    <style>
+        .htmx-indicator {
+            opacity: 0;
+            transition: opacity 500ms ease-in;
+        }
+
+        .htmx-request .htmx-indicator {
+            opacity: 1
+        }
+
+        .htmx-request.htmx-indicator {
+            opacity: 1
+        }
+    </style>
 </head>
+
 <body>
+
+    <img src="assets\HTMX-swapguide.PNG" width="500px">
+    <br>
+
     <button hx-on="click:alert('Clicked!')">Click Alert</button>
     <br>
     <!-- Need to test hx-get, hx-post, etc. with a running backend server; test with NodeJS or dotNet -->
@@ -17,19 +37,22 @@
     </button>
     <br>
     <br>
-    <div id="pizzaList"></div>
 
+    <h2>PIZZA SERVER</h2>
+    <br>
+    <div id="pizzaList" style="background-color: yellow; width: 100%; height: 4vw;"></div>
+    <br>
+    <br>
     <!-- htmx requests for all main HTTP verbs -->
     <button hx-get="http://localhost:5007/pizzas/1" hx-swap="outerHTML" hx-target="#pizzaDetails">
         GET: Pizza 1
     </button>
     <br>
     <br>
-    
 
-    <!-- need to figure out how to send JSON to the server with htmx -->
-    <!-- ideally, I probably wouldn't be sending JSON in my data requests; instead the server would expect HTML, I think... I need to research this further -->
-    <form id="pizzaForm" hx-post="http://localhost:5007/pizzas" hx-swap="outerHTML" hx-target="#pizzaForm" hx-vals='{"json": formToJSON(this)}'>
+
+    <!-- this hx-post element sends URL-encoded data to the server; the server then parses it into JSON, and returns the response, which may be HTML-->
+    <form id="pizzaForm" hx-post="http://localhost:5007/pizzas" hx-swap="outerHTML" hx-target="#pizzaForm">
         <input type="number" name="id" placeholder="ID">
         <input type="text" name="name" placeholder="Name">
         <button type="submit">POST: Create Pizza</button>
@@ -42,23 +65,32 @@
     <button hx-delete="http://localhost:5007/pizzas/1" hx-swap="outerHTML" hx-target="#pizzaList">
         DELETE: Pizza 1
     </button>
-    
+
     <div id="pizzaDetails"></div>
     <div id="pizzaForm"></div>
 
+    <br>
+    <br>
+    <br>
+    <br>
+    <button hx-get="http://localhost:5007/htmx" hx-swap="outerHTML" hx-target="#htmxfield" hx-indicator="#spinner">
+        Fetch HTML
+    </button>
+    <img id="spinner" class="htmx-indicator" src="assets/loadingbars.svg" />
+
+    <h2>GENERIC HTMX RESPONSE SERVER</h2>
+    <br>
+    <div id="htmxfield" style="background-color: yellow; width: 100%; height: 4vw;"></div>
 
     <script>
-        function formToJSON(form) {
-            var formData = new FormData(form);
-            var data = {};
-            formData.forEach((value, key) => data[key] = value);
-            return JSON.stringify(data);
-        }
+        // empty...
     </script>
 </body>
+
 </html>
 
-    
+
 
 </body>
+
 </html>
