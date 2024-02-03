@@ -37,8 +37,8 @@
     </button>
     <br>
     <br>
-
     <h2>PIZZA SERVER</h2>
+    <img id="masterSpinner" class="htmx-indicator" src="assets/loadingbars.svg" style="width:100px"/>
     <br>
     <div id="pizzaList" style="background-color: yellow; width: 100%; height: 4vw;"></div>
     <br>
@@ -52,7 +52,7 @@
 
 
     <!-- this hx-post element sends URL-encoded data to the server; the server then parses it into JSON, and returns the response, which may be HTML-->
-    <form id="pizzaForm" hx-post="http://localhost:5007/pizzas" hx-swap="outerHTML" hx-target="#pizzaForm">
+    <form id="pizzaForm" hx-post="http://localhost:5007/pizzas" hx-swap="outerHTML" hx-target="#pizzaForm" hx-indicator="#masterSpinner">
         <input type="number" name="id" placeholder="ID">
         <input type="text" name="name" placeholder="Name">
         <button type="submit">POST: Create Pizza</button>
@@ -76,7 +76,6 @@
     <button hx-get="http://localhost:5007/htmx" hx-swap="outerHTML" hx-target="#htmxfield" hx-indicator="#spinner">
         Fetch HTML
     </button>
-    <img id="spinner" class="htmx-indicator" src="assets/loadingbars.svg" />
 
     <h2>GENERIC HTMX RESPONSE SERVER</h2>
     <br>
